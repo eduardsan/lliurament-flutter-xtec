@@ -1,0 +1,158 @@
+{
+  "pokemon": [
+    {
+      "id": 1,
+      "name": "Bulbasaur",
+      "type": "Grass",
+      "secondaryType": "Poison",
+      "types": ["Grass", "Poison"]
+    },
+    {
+      "id": 2,
+      "name": "Ivysaur",
+      "type": "Grass",
+      "secondaryType": "Poison",
+      "types": ["Grass", "Poison"]
+    },
+    {
+      "id": 3,
+      "name": "Venusaur",
+      "type": "Grass",
+      "secondaryType": "Poison",
+      "types": ["Grass", "Poison"]
+    },
+    {
+      "id": 4,
+      "name": "Charmander",
+      "type": "Fire",
+      "secondaryType": null,
+      "types": ["Fire"]
+    },
+    {
+      "id": 5,
+      "name": "Charmeleon",
+      "type": "Fire",
+      "secondaryType": null,
+      "types": ["Fire"]
+    },
+    {
+      "id": 6,
+      "name": "Charizard",
+      "type": "Fire",
+      "secondaryType": "Flying",
+      "types": ["Fire", "Flying"]
+    },
+    {
+      "id": 7,
+      "name": "Squirtle",
+      "type": "Water",
+      "secondaryType": null,
+      "types": ["Water"]
+    },
+    {
+      "id": 8,
+      "name": "Wartortle",
+      "type": "Water",
+      "secondaryType": null,
+      "types": ["Water"]
+    },
+    {
+      "id": 9,
+      "name": "Blastoise",
+      "type": "Water",
+      "secondaryType": null,
+      "types": ["Water"]
+    },
+    {
+      "id": 25,
+      "name": "Pikachu",
+      "type": "Electric",
+      "secondaryType": null,
+      "types": ["Electric"]
+    },
+    {
+      "id": 39,
+      "name": "Jigglypuff",
+      "type": "Normal",
+      "secondaryType": "Fairy",
+      "types": ["Normal", "Fairy"]
+    },
+    {
+      "id": 52,
+      "name": "Meowth",
+      "type": "Normal",
+      "secondaryType": null,
+      "types": ["Normal"]
+    },
+    {
+      "id": 54,
+      "name": "Psyduck",
+      "type": "Water",
+      "secondaryType": null,
+      "types": ["Water"]
+    },
+    {
+      "id": 58,
+      "name": "Growlithe",
+      "type": "Fire",
+      "secondaryType": null,
+      "types": ["Fire"]
+    },
+    {
+      "id": 63,
+      "name": "Abra",
+      "type": "Psychic",
+      "secondaryType": null,
+      "types": ["Psychic"]
+    },
+    {
+      "id": 74,
+      "name": "Geodude",
+      "type": "Rock",
+      "secondaryType": "Ground",
+      "types": ["Rock", "Ground"]
+    },
+    {
+      "id": 92,
+      "name": "Gastly",
+      "type": "Ghost",
+      "secondaryType": "Poison",
+      "types": ["Ghost", "Poison"]
+    },
+    {
+      "id": 129,
+      "name": "Magikarp",
+      "type": "Water",
+      "secondaryType": null,
+      "types": ["Water"]
+    },
+    {
+      "id": 132,
+      "name": "Ditto",
+      "type": "Normal",
+      "secondaryType": null,
+      "types": ["Normal"]
+    },
+    {
+      "id": 143,
+      "name": "Snorlax",
+      "type": "Normal",
+      "secondaryType": null,
+      "types": ["Normal"]
+    },
+    {
+      "id": 150,
+      "name": "Mewtwo",
+      "type": "Psychic",
+      "secondaryType": null,
+      "types": ["Psychic"]
+    },
+    {
+      "id": 151,
+      "name": "Mew",
+      "type": "Psychic",
+      "secondaryType": null,
+      "types": ["Psychic"]
+    }
+  ]
+}
