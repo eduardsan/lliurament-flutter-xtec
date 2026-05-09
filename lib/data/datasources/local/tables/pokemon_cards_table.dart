@@ -7,5 +7,7 @@ class PokemonCards extends Table {
 
   TextColumn get type => text()();
 
+  TextColumn get secondType => text()();
+
   TextColumn get imageUrl => text()();
 }

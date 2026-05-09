@@ -15,6 +15,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
         PokemonCardsCompanion.insert(
           name: card.name,
           type: card.type,
+          secondType: card.secondType,
           imageUrl: card.imageUrl,
         ),
       );
@@ -38,6 +39,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
         id: card.id,
         name: card.name,
         type: card.type,
+        secondType: card.secondType,
         imageUrl: card.imageUrl,
       );
     }).toList();

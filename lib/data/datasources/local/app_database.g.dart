@@ -40,6 +40,17 @@ class $PokemonCardsTable extends PokemonCards
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _secondTypeMeta = const VerificationMeta(
+    'secondType',
+  );
+  @override
+  late final GeneratedColumn<String> secondType = GeneratedColumn<String>(
+    'second_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _imageUrlMeta = const VerificationMeta(
     'imageUrl',
   );
@@ -52,7 +63,7 @@ class $PokemonCardsTable extends PokemonCards
     requiredDuringInsert: true,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, name, type, imageUrl];
+  List<GeneratedColumn> get $columns => [id, name, type, secondType, imageUrl];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -84,6 +95,14 @@ class $PokemonCardsTable extends PokemonCards
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
+    if (data.containsKey('second_type')) {
+      context.handle(
+        _secondTypeMeta,
+        secondType.isAcceptableOrUnknown(data['second_type']!, _secondTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_secondTypeMeta);
+    }
     if (data.containsKey('image_url')) {
       context.handle(
         _imageUrlMeta,
@@ -113,6 +132,10 @@ class $PokemonCardsTable extends PokemonCards
         DriftSqlType.string,
         data['${effectivePrefix}type'],
       )!,
+      secondType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}second_type'],
+      )!,
       imageUrl: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}image_url'],
@@ -130,11 +153,13 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
   final int id;
   final String name;
   final String type;
+  final String secondType;
   final String imageUrl;
   const PokemonCard({
     required this.id,
     required this.name,
     required this.type,
+    required this.secondType,
     required this.imageUrl,
   });
   @override
@@ -143,6 +168,7 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['type'] = Variable<String>(type);
+    map['second_type'] = Variable<String>(secondType);
     map['image_url'] = Variable<String>(imageUrl);
     return map;
   }
@@ -152,6 +178,7 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
       id: Value(id),
       name: Value(name),
       type: Value(type),
+      secondType: Value(secondType),
       imageUrl: Value(imageUrl),
     );
   }
@@ -165,6 +192,7 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       type: serializer.fromJson<String>(json['type']),
+      secondType: serializer.fromJson<String>(json['secondType']),
       imageUrl: serializer.fromJson<String>(json['imageUrl']),
     );
   }
@@ -175,6 +203,7 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'type': serializer.toJson<String>(type),
+      'secondType': serializer.toJson<String>(secondType),
       'imageUrl': serializer.toJson<String>(imageUrl),
     };
   }
@@ -183,11 +212,13 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
     int? id,
     String? name,
     String? type,
+    String? secondType,
     String? imageUrl,
   }) => PokemonCard(
     id: id ?? this.id,
     name: name ?? this.name,
     type: type ?? this.type,
+    secondType: secondType ?? this.secondType,
     imageUrl: imageUrl ?? this.imageUrl,
   );
   PokemonCard copyWithCompanion(PokemonCardsCompanion data) {
@@ -195,6 +226,9 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       type: data.type.present ? data.type.value : this.type,
+      secondType: data.secondType.present
+          ? data.secondType.value
+          : this.secondType,
       imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
     );
   }
@@ -205,13 +239,14 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('type: $type, ')
+          ..write('secondType: $secondType, ')
           ..write('imageUrl: $imageUrl')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, type, imageUrl);
+  int get hashCode => Object.hash(id, name, type, secondType, imageUrl);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -219,6 +254,7 @@ class PokemonCard extends DataClass implements Insertable<PokemonCard> {
           other.id == this.id &&
           other.name == this.name &&
           other.type == this.type &&
+          other.secondType == this.secondType &&
           other.imageUrl == this.imageUrl);
 }
 
@@ -226,31 +262,37 @@ class PokemonCardsCompanion extends UpdateCompanion<PokemonCard> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> type;
+  final Value<String> secondType;
   final Value<String> imageUrl;
   const PokemonCardsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.type = const Value.absent(),
+    this.secondType = const Value.absent(),
     this.imageUrl = const Value.absent(),
   });
   PokemonCardsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String type,
+    required String secondType,
     required String imageUrl,
   }) : name = Value(name),
        type = Value(type),
+       secondType = Value(secondType),
        imageUrl = Value(imageUrl);
   static Insertable<PokemonCard> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? type,
+    Expression<String>? secondType,
     Expression<String>? imageUrl,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (type != null) 'type': type,
+      if (secondType != null) 'second_type': secondType,
       if (imageUrl != null) 'image_url': imageUrl,
     });
   }
@@ -259,12 +301,14 @@ class PokemonCardsCompanion extends UpdateCompanion<PokemonCard> {
     Value<int>? id,
     Value<String>? name,
     Value<String>? type,
+    Value<String>? secondType,
     Value<String>? imageUrl,
   }) {
     return PokemonCardsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       type: type ?? this.type,
+      secondType: secondType ?? this.secondType,
       imageUrl: imageUrl ?? this.imageUrl,
     );
   }
@@ -281,6 +325,9 @@ class PokemonCardsCompanion extends UpdateCompanion<PokemonCard> {
     if (type.present) {
       map['type'] = Variable<String>(type.value);
     }
+    if (secondType.present) {
+      map['second_type'] = Variable<String>(secondType.value);
+    }
     if (imageUrl.present) {
       map['image_url'] = Variable<String>(imageUrl.value);
     }
@@ -293,6 +340,7 @@ class PokemonCardsCompanion extends UpdateCompanion<PokemonCard> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('type: $type, ')
+          ..write('secondType: $secondType, ')
           ..write('imageUrl: $imageUrl')
           ..write(')'))
         .toString();
@@ -315,6 +363,7 @@ typedef $$PokemonCardsTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       required String type,
+      required String secondType,
       required String imageUrl,
     });
 typedef $$PokemonCardsTableUpdateCompanionBuilder =
@@ -322,6 +371,7 @@ typedef $$PokemonCardsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> name,
       Value<String> type,
+      Value<String> secondType,
       Value<String> imageUrl,
     });
 
@@ -346,6 +396,11 @@ class $$PokemonCardsTableFilterComposer
 
   ColumnFilters<String> get type => $composableBuilder(
     column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get secondType => $composableBuilder(
+    column: $table.secondType,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -379,6 +434,11 @@ class $$PokemonCardsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get secondType => $composableBuilder(
+    column: $table.secondType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get imageUrl => $composableBuilder(
     column: $table.imageUrl,
     builder: (column) => ColumnOrderings(column),
@@ -402,6 +462,11 @@ class $$PokemonCardsTableAnnotationComposer
 
   GeneratedColumn<String> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get secondType => $composableBuilder(
+    column: $table.secondType,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get imageUrl =>
       $composableBuilder(column: $table.imageUrl, builder: (column) => column);
@@ -441,11 +506,13 @@ class $$PokemonCardsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> type = const Value.absent(),
+                Value<String> secondType = const Value.absent(),
                 Value<String> imageUrl = const Value.absent(),
               }) => PokemonCardsCompanion(
                 id: id,
                 name: name,
                 type: type,
+                secondType: secondType,
                 imageUrl: imageUrl,
               ),
           createCompanionCallback:
@@ -453,11 +520,13 @@ class $$PokemonCardsTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 required String type,
+                required String secondType,
                 required String imageUrl,
               }) => PokemonCardsCompanion.insert(
                 id: id,
                 name: name,
                 type: type,
+                secondType: secondType,
                 imageUrl: imageUrl,
               ),
           withReferenceMapper: (p0) => p0
