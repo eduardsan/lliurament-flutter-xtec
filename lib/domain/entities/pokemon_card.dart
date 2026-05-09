@@ -12,4 +12,11 @@ class PokemonCardEntity {
     required this.secondType,
     required this.imageUrl,
   });
+
+  List<String> get types {
+    return [
+      type,
+      if (secondType.isNotEmpty && secondType.toLowerCase() != 'none') secondType,
+    ];
+  }
 }

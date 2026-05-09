@@ -23,9 +23,15 @@ class PokemonViewModel extends ChangeNotifier {
   });
 
   List<PokemonCardEntity> cards = [];
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   Future<void> loadCards() async {
+    _isLoading = true;
+    notifyListeners();
+
     cards = await getCardsUseCase();
+    _isLoading = false;
     notifyListeners();
   }
 

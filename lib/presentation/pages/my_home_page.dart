@@ -20,12 +20,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    // Load cards when the page is first created
+    viewModel.loadCards();
   }
 
   @override
@@ -41,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: _incrementCounter,
+            onPressed: () {}, // Logic for adding a single card can be added here
             tooltip: 'Increment',
           ),
           PopupMenuButton<String>(
@@ -76,15 +75,31 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: ListenableBuilder(
+          listenable: viewModel,
+          builder: (context, _) {
+            if (viewModel.isLoading && viewModel.cards.isEmpty) {
+              return const CircularProgressIndicator();
+            }
+            if (viewModel.cards.isEmpty) {
+              return const Text('No hi ha pokemons disponibles.');
+            }
+            return ListView.builder(
+              itemCount: viewModel.cards.length,
+              itemBuilder: (context, index) {
+                final pokemon = viewModel.cards[index];
+                return ListTile(
+                  leading: Image.asset(
+                    pokemon.imageUrl,
+                    width: 50,
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                  ),
+                  title: Text(pokemon.name),
+                  subtitle: Text(pokemon.types.join(', ')),
+                );
+              },
+            );
+          },
         ),
       ),
     );
