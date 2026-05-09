@@ -84,18 +84,49 @@ class _MyHomePageState extends State<MyHomePage> {
             if (viewModel.cards.isEmpty) {
               return const Text('No hi ha pokemons disponibles.');
             }
-            return ListView.builder(
+            return GridView.builder(
+              padding: const EdgeInsets.all(12),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.85,
+              ),
               itemCount: viewModel.cards.length,
               itemBuilder: (context, index) {
                 final pokemon = viewModel.cards[index];
-                return ListTile(
-                  leading: Image.asset(
-                    pokemon.imageUrl,
-                    width: 50,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                return Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  title: Text(pokemon.name),
-                  subtitle: Text(pokemon.types.join(', ')),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            pokemon.imageUrl,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.error, size: 40),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        pokemon.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
+                        child: Text(
+                          pokemon.types.join(', '),
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );
