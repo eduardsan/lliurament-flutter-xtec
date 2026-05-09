@@ -42,7 +42,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gestió de pokemons',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFCB05), // Pokemon Yellow
+          primary: const Color(0xFFFFCB05),
+          secondary: const Color(0xFF3B4CCA), // Pokemon Blue
+        ),
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Gestió de pokemons'),
     );
