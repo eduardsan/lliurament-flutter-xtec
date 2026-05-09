@@ -1,4 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lliurament_flutter_xtec/data/datasources/local/app_database.dart';
+import 'package:lliurament_flutter_xtec/data/repositories/pokemon_repository_impl.dart';
+import 'package:lliurament_flutter_xtec/domain/usecases/add_card.dart';
+import 'package:lliurament_flutter_xtec/domain/usecases/delete_card.dart';
+import 'package:lliurament_flutter_xtec/domain/usecases/get_cards.dart';
+import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
+
+final database = AppDatabase();
+
+final repository = PokemonRepositoryImpl(database);
+
+final viewModel = PokemonViewModel(
+  getCardsUseCase: GetCards(repository),
+  addCardUseCase: AddCard(repository),
+  deleteCardUseCase: DeleteCard(repository),
+);
 
 void main() {
   runApp(const MyApp());
