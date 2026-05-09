@@ -33,9 +33,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        leading: const Padding(
+        leading: Padding(
           padding: EdgeInsets.all(8.0),
-          child: FlutterLogo(),
+          child: Image.asset(
+            'assets/images/pokeball.png', // Assuming pokeball.png exists in assets/images
+            fit: BoxFit.contain,
+          ),
         ),
         title: Text(widget.title),
         actions: [
