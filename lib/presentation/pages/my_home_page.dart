@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lliurament_flutter_xtec/main.dart'; // Import main.dart to access the global viewModel
+import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -100,32 +101,48 @@ class _MyHomePageState extends State<MyHomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            pokemon.imageUrl,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(Icons.error, size: 40),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PokemonDetailsPage(pokemon: pokemon),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Hero(
+                              tag: 'pokemon-${pokemon.id}',
+                              child: Image.asset(
+                                pokemon.imageUrl,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.error, size: 40),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        pokemon.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
-                        child: Text(
-                          pokemon.types.join(', '),
-                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        Text(
+                          pokemon.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
+                          child: Text(
+                            pokemon.types.join(', '),
+                            style:
+                                const TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
