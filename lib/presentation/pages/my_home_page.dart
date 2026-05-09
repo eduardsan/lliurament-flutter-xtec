@@ -32,7 +32,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: FlutterLogo(),
+        ),
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {},
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'LoadFromAssets',
+                child: Text('Càrrega inicial'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'DeleteAll',
+                child: Text('Eliminar tots'),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem<String>(
+                value: 'Settings',
+                child: Text('Configuració'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'About',
+                child: Text('Sobre'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -46,13 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
-// This file is deprecated. Logic moved to lib/presentation/pages/home_page.dart
-// You can safely delete this file.
