@@ -26,8 +26,28 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
+  Future<void> addCards(List<PokemonCardEntity> cards) async {
+    await database.batch((batch) {
+      batch.insertAll(
+        database.pokemonCards,
+        cards.map((card) => PokemonCardsCompanion.insert(
+          name: card.name,
+          type: card.type,
+          secondType: card.secondType,
+          imageUrl: card.imageUrl,
+        )).toList(),
+      );
+    });
+  }
+
+  @override
   Future<void> deleteCard(int id) async {
     await database.deleteCard(id);
+  }
+
+  @override
+  Future<void> deleteAllCards() async {
+    await database.deleteAllCards();
   }
 
   @override

@@ -5,5 +5,9 @@ abstract class PokemonRepository {
 
   Future<void> addCard(PokemonCardEntity card);
 
+  Future<void> addCards(List<PokemonCardEntity> cards);
+
   Future<void> deleteCard(int id);
+
+  Future<void> deleteAllCards();
 }

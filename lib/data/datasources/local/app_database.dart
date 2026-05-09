@@ -32,6 +32,11 @@ class AppDatabase extends _$AppDatabase {
     return select(pokemonCards).get();
   }
 
+  // BULK DELETE
+  Future<int> deleteAllCards() {
+    return delete(pokemonCards).go();
+  }
+
   // DELETE
   Future<int> deleteCard(int id) {
     return (delete(pokemonCards)

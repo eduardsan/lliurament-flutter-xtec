@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lliurament_flutter_xtec/main.dart'; // Import main.dart to access the global viewModel
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -44,7 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: 'Increment',
           ),
           PopupMenuButton<String>(
-            onSelected: (value) {},
+            onSelected: (value) {
+              if (value == 'LoadFromAssets') {
+                viewModel.initialLoad(); // Call the initialLoad method from the ViewModel
+              } else if (value == 'DeleteAll') {
+                viewModel.deleteAll(); // Call the deleteAll method from the ViewModel
+              }
+              // Add logic for 'Settings' and 'About' if needed
+            },
             itemBuilder: (context) => [
               const PopupMenuItem<String>(
                 value: 'LoadFromAssets',
