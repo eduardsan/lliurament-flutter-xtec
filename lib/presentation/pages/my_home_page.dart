@@ -101,8 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              PokemonDetailsPage(pokemon: pokemon),
+                          builder: (context) => PokemonDetailsPage(
+                            pokemon: pokemon,
+                            viewModel: widget.viewModel,
+                          ),
                         ),
                       );
                     },
