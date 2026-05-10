@@ -10,33 +10,32 @@ import 'package:lliurament_flutter_xtec/domain/usecases/initial_load.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/my_home_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
 
-final database = AppDatabase();
-
-final repository = PokemonRepositoryImpl(database);
-final initialDataRepository = InitialDataRepositoryImpl();
-
-final initialLoadUseCase = InitialLoad(
-  localRepository: repository,
-  sourceRepository: initialDataRepository,
-);
-final deleteAllCardsUseCase = DeleteAllCards(repository);
-
-final viewModel = PokemonViewModel(
-  getCardsUseCase: GetCards(repository),
-  addCardUseCase: AddCard(repository),
-  deleteCardUseCase: DeleteCard(repository),
-  initialLoadUseCase: initialLoadUseCase, // Pass the initialLoadUseCase
-  deleteAllCardsUseCase: deleteAllCardsUseCase, // Pass the deleteAllCardsUseCase
-);
-
 void main() {
-  runApp(const MyApp());
+  final database = AppDatabase();
+  final repository = PokemonRepositoryImpl(database);
+  final initialDataRepository = InitialDataRepositoryImpl();
+
+  final initialLoadUseCase = InitialLoad(
+    localRepository: repository,
+    sourceRepository: initialDataRepository,
+  );
+  final deleteAllCardsUseCase = DeleteAllCards(repository);
+
+  final viewModel = PokemonViewModel(
+    getCardsUseCase: GetCards(repository),
+    addCardUseCase: AddCard(repository),
+    deleteCardUseCase: DeleteCard(repository),
+    initialLoadUseCase: initialLoadUseCase,
+    deleteAllCardsUseCase: deleteAllCardsUseCase,
+  );
+
+  runApp(MyApp(viewModel: viewModel));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final PokemonViewModel viewModel;
+  const MyApp({super.key, required this.viewModel});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,7 +48,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Gestió de pokemons'),
+      home: MyHomePage(
+        title: 'Gestió de pokemons',
+        viewModel: viewModel,
+      ),
     );
   }
 }

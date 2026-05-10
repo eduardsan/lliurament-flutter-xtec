@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lliurament_flutter_xtec/main.dart'; // Import main.dart to access the global viewModel
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
+import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  const MyHomePage({super.key, required this.title, required this.viewModel});
 
   final String title;
+  final PokemonViewModel viewModel;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -24,8 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // Load cards when the page is first created
-    viewModel.loadCards();
+    widget.viewModel.loadCards();
   }
 
   @override
@@ -50,9 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == 'LoadFromAssets') {
-                viewModel.initialLoad(); // Call the initialLoad method from the ViewModel
+                widget.viewModel.initialLoad();
               } else if (value == 'DeleteAll') {
-                viewModel.deleteAll(); // Call the deleteAll method from the ViewModel
+                widget.viewModel.deleteAll();
               }
               // Add logic for 'Settings' and 'About' if needed
             },
@@ -80,12 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: ListenableBuilder(
-          listenable: viewModel,
+          listenable: widget.viewModel,
           builder: (context, _) {
-            if (viewModel.isLoading && viewModel.cards.isEmpty) {
+            if (widget.viewModel.isLoading && widget.viewModel.cards.isEmpty) {
               return const CircularProgressIndicator();
             }
-            if (viewModel.cards.isEmpty) {
+            if (widget.viewModel.cards.isEmpty) {
               return const Text('No hi ha pokemons disponibles.');
             }
             return GridView.builder(
@@ -96,9 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSpacing: 12,
                 childAspectRatio: 0.85,
               ),
-              itemCount: viewModel.cards.length,
+              itemCount: widget.viewModel.cards.length,
               itemBuilder: (context, index) {
-                final pokemon = viewModel.cards[index];
+                final pokemon = widget.viewModel.cards[index];
                 return Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
