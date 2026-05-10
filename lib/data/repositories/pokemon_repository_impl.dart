@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import '../../domain/entities/pokemon_card.dart';
 import '../../domain/repositories/pokemon_repository.dart';
 
@@ -10,19 +11,15 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
   @override
   Future<void> addCard(PokemonCardEntity card) async {
-    try {
-      await database.insertCard(
-        PokemonCardsCompanion.insert(
-          name: card.name,
-          type: card.type,
-          secondType: card.secondType,
-          imageUrl: card.imageUrl,
-        ),
-      );
-    } catch (e) {
-      // Log error or rethrow a domain-specific exception
-      rethrow;
-    }
+    await database.into(database.pokemonCards).insertOnConflictUpdate(
+          PokemonCardsCompanion(
+            id: card.id != null ? Value(card.id!) : const Value.absent(),
+            name: Value(card.name),
+            type: Value(card.type),
+            secondType: Value(card.secondType),
+            imageUrl: Value(card.imageUrl),
+          ),
+        );
   }
 
   @override
@@ -30,12 +27,16 @@ class PokemonRepositoryImpl implements PokemonRepository {
     await database.batch((batch) {
       batch.insertAll(
         database.pokemonCards,
-        cards.map((card) => PokemonCardsCompanion.insert(
-          name: card.name,
-          type: card.type,
-          secondType: card.secondType,
-          imageUrl: card.imageUrl,
-        )).toList(),
+        cards
+            .map((card) => PokemonCardsCompanion(
+                  id: card.id != null ? Value(card.id!) : const Value.absent(),
+                  name: Value(card.name),
+                  type: Value(card.type),
+                  secondType: Value(card.secondType),
+                  imageUrl: Value(card.imageUrl),
+                ))
+            .toList(),
+        mode: InsertMode.insertOrReplace,
       );
     });
   }

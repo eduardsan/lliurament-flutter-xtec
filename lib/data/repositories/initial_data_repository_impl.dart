@@ -14,6 +14,7 @@ class InitialDataRepositoryImpl implements InitialDataRepository {
 
       return pokemonList.map((item) {
         return PokemonCardEntity(
+          id: item['id'],
           name: item['name'] ?? 'Unknown',
           type: item['type'] ?? 'Normal',
           secondType: item['secondaryType'] ?? '',
