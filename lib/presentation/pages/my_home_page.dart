@@ -70,10 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Eliminar tots'),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem<HomeMenuAction>(
-                value: HomeMenuAction.settings,
-                child: Text('Configuració'),
-              ),
+              // TODO: maybe add later
+              // const PopupMenuItem<HomeMenuAction>(
+              //   value: HomeMenuAction.settings,
+              //   child: Text('Configuració'),
+              // ),
               const PopupMenuItem<HomeMenuAction>(
                 value: HomeMenuAction.about,
                 child: Text('Sobre'),
