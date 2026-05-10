@@ -32,6 +32,11 @@ class AppDatabase extends _$AppDatabase {
     return select(pokemonCards).get();
   }
 
+  // READ (Single card by ID) - needed to get image path before deletion
+  Future<PokemonCard?> getCardById(int id) {
+    return (select(pokemonCards)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+  }
+
   // BULK DELETE
   Future<int> deleteAllCards() {
     return delete(pokemonCards).go();

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_about_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
@@ -136,8 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Hero(
                               tag: 'pokemon-${pokemon.id}',
-                              child: Image.asset(
-                                pokemon.imageUrl,
+                              child: Image.file(
+                                File(pokemon.imageUrl),
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
                                     const Icon(Icons.error, size: 40),

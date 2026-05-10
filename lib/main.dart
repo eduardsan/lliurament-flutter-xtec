@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lliurament_flutter_xtec/data/datasources/local/app_database.dart';
 import 'package:lliurament_flutter_xtec/data/repositories/pokemon_repository_impl.dart';
 import 'package:lliurament_flutter_xtec/data/repositories/initial_data_repository_impl.dart';
+import 'package:lliurament_flutter_xtec/data/datasources/local/image_storage_service.dart';
 import 'package:lliurament_flutter_xtec/domain/usecases/add_card.dart';
 import 'package:lliurament_flutter_xtec/domain/usecases/delete_card.dart';
 import 'package:lliurament_flutter_xtec/domain/usecases/delete_all_cards.dart';
@@ -12,7 +13,8 @@ import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmode
 
 void main() {
   final database = AppDatabase();
-  final repository = PokemonRepositoryImpl(database);
+  final imageStorageService = ImageStorageService();
+  final repository = PokemonRepositoryImpl(database, imageStorageService);
   final initialDataRepository = InitialDataRepositoryImpl();
 
   final initialLoadUseCase = InitialLoad(

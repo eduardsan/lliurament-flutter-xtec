@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../../domain/entities/pokemon_card.dart';
 import '../viewmodels/pokemon_viewmodel.dart';
@@ -70,8 +72,8 @@ class PokemonDetailsPage extends StatelessWidget {
               Center(
                 child: Hero(
                   tag: 'pokemon-${pokemon.id}',
-                  child: Image.asset(
-                    pokemon.imageUrl,
+                  child: Image.file(
+                    File(pokemon.imageUrl),
                     height: 250,
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) =>
