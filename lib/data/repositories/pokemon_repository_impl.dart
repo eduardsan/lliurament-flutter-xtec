@@ -57,7 +57,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   Future<void> deleteCard(int id) async {
     final card = await database.getCardById(id);
     if (card != null) {
-      await imageStorageService.deleteImage(card.imageUrl);
+      final absolutePath = await imageStorageService.resolvePath(card.imageUrl);
+      await imageStorageService.deleteImage(absolutePath);
     }
     await database.deleteCard(id);
   }
@@ -72,14 +73,14 @@ class PokemonRepositoryImpl implements PokemonRepository {
   Future<List<PokemonCardEntity>> getCards() async {
     final cards = await database.getAllCards();
 
-    return cards.map((card) {
+    return Future.wait(cards.map((card) async {
       return PokemonCardEntity(
         id: card.id,
         name: card.name,
         type: card.type,
         secondType: card.secondType,
-        imageUrl: card.imageUrl,
+        imageUrl: await imageStorageService.resolvePath(card.imageUrl),
       );
-    }).toList();
+    }));
   }
 }
