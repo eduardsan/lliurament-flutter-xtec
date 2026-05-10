@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
 
+enum HomeMenuAction {
+  loadFromAssets,
+  deleteAll,
+  settings,
+  about,
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.viewModel});
 
@@ -38,31 +45,37 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {}, // Logic for adding a single card can be added here
             tooltip: 'Increment',
           ),
-          PopupMenuButton<String>(
+          PopupMenuButton<HomeMenuAction>(
             onSelected: (value) {
-              if (value == 'LoadFromAssets') {
-                widget.viewModel.initialLoad();
-              } else if (value == 'DeleteAll') {
-                widget.viewModel.deleteAll();
+              switch (value) {
+                case HomeMenuAction.loadFromAssets:
+                  widget.viewModel.initialLoad();
+                  break;
+                case HomeMenuAction.deleteAll:
+                  widget.viewModel.deleteAll();
+                  break;
+                case HomeMenuAction.settings:
+                case HomeMenuAction.about:
+                  // Add logic for 'Settings' and 'About' if needed
+                  break;
               }
-              // Add logic for 'Settings' and 'About' if needed
             },
             itemBuilder: (context) => [
-              const PopupMenuItem<String>(
-                value: 'LoadFromAssets',
+              const PopupMenuItem<HomeMenuAction>(
+                value: HomeMenuAction.loadFromAssets,
                 child: Text('Càrrega inicial'),
               ),
-              const PopupMenuItem<String>(
-                value: 'DeleteAll',
+              const PopupMenuItem<HomeMenuAction>(
+                value: HomeMenuAction.deleteAll,
                 child: Text('Eliminar tots'),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem<String>(
-                value: 'Settings',
+              const PopupMenuItem<HomeMenuAction>(
+                value: HomeMenuAction.settings,
                 child: Text('Configuració'),
               ),
-              const PopupMenuItem<String>(
-                value: 'About',
+              const PopupMenuItem<HomeMenuAction>(
+                value: HomeMenuAction.about,
                 child: Text('Sobre'),
               ),
             ],
