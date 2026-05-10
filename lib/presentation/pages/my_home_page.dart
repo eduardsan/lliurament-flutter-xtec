@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_about_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
 
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {}, // Logic for adding a single card can be added here
-            tooltip: 'Increment',
+            tooltip: 'Afegir Pokemon',
           ),
           PopupMenuButton<HomeMenuAction>(
             onSelected: (value) {
@@ -54,9 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 case HomeMenuAction.deleteAll:
                   widget.viewModel.deleteAll();
                   break;
-                case HomeMenuAction.settings:
                 case HomeMenuAction.about:
-                  // Add logic for 'Settings' and 'About' if needed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PokemonAboutPage()),
+                  );
+                  break;
+                case HomeMenuAction.settings:
+                  // Add logic for 'Settings' if needed
                   break;
               }
             },
