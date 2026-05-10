@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../domain/entities/pokemon_card.dart';
 import '../viewmodels/pokemon_viewmodel.dart';
+import 'pokemon_edit_page.dart';
 
 class PokemonDetailsPage extends StatelessWidget {
   final PokemonCardEntity pokemon;
@@ -52,7 +53,15 @@ class PokemonDetailsPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              // TODO: Implement edit logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PokemonEditPage(
+                    pokemon: pokemon,
+                    viewModel: viewModel,
+                  ),
+                ),
+              );
             },
           ),
           IconButton(
