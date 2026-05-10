@@ -12,8 +12,20 @@ class PokemonDetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(pokemon.name),
-        // The back arrow is automatically provided by the Scaffold/AppBar 
-        // when a route is pushed via Navigator.
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              // TODO: Implement edit logic
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              // TODO: Implement delete logic
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
