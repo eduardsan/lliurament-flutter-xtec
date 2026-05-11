@@ -49,7 +49,7 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
         imageUrl: widget.pokemon.imageUrl,
       );
       widget.viewModel.addCard(updatedPokemon);
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(updatedPokemon);
     }
   }
 
