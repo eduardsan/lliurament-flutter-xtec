@@ -13,7 +13,22 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
   @override
   Future<void> addCard(PokemonCardEntity card) async {
-    final String finalImageUrl = await imageStorageService.saveImage(card.imageUrl);
+    String? oldImageUrlInDb;
+    if (card.id != null) {
+      final existingCardData = await database.getCardById(card.id!);
+      if (existingCardData != null) {
+        oldImageUrlInDb = existingCardData.imageUrl;
+      }
+    }
+
+    // Save the new image first. This will return the filename in our storage.
+    final String newSavedImageFilename = await imageStorageService.saveImage(card.imageUrl);
+
+    // If it's an update and the image has changed, delete the old one.
+    if (card.id != null && oldImageUrlInDb != null && oldImageUrlInDb != newSavedImageFilename) {
+      final absolutePathToDelete = await imageStorageService.resolvePath(oldImageUrlInDb);
+      await imageStorageService.deleteImage(absolutePathToDelete);
+    }
 
     await database.into(database.pokemonCards).insertOnConflictUpdate(
           PokemonCardsCompanion(
@@ -21,7 +36,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
             name: Value(card.name),
             type: Value(card.type),
             secondType: Value(card.secondType),
-            imageUrl: Value(finalImageUrl),
+            imageUrl: Value(newSavedImageFilename), // Use the new saved filename
           ),
         );
   }

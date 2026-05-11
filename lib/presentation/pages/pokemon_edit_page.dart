@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../domain/entities/pokemon_card.dart';
 import '../viewmodels/pokemon_viewmodel.dart';
 
@@ -21,6 +22,7 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
   late TextEditingController _nameController;
   late TextEditingController _typeController;
   late TextEditingController _secondTypeController;
+  late String _imagePath;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -29,6 +31,7 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
     _nameController = TextEditingController(text: widget.pokemon.name);
     _typeController = TextEditingController(text: widget.pokemon.type);
     _secondTypeController = TextEditingController(text: widget.pokemon.secondType);
+    _imagePath = widget.pokemon.imageUrl;
   }
 
   @override
@@ -39,6 +42,17 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
     super.dispose();
   }
 
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _imagePath = image.path;
+      });
+    }
+  }
+
   void _save() {
     if (_formKey.currentState!.validate()) {
       final updatedPokemon = PokemonCardEntity(
@@ -46,7 +60,7 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
         name: _nameController.text,
         type: _typeController.text,
         secondType: _secondTypeController.text,
-        imageUrl: widget.pokemon.imageUrl,
+        imageUrl: _imagePath,
       );
       widget.viewModel.addCard(updatedPokemon);
       Navigator.of(context).pop(updatedPokemon);
@@ -89,12 +103,20 @@ class _PokemonEditPageState extends State<PokemonEditPage> {
                 decoration: const InputDecoration(labelText: 'Tipus 2'),
               ),
               const SizedBox(height: 24),
-              Image.file(
-                File(widget.pokemon.imageUrl),
-                height: 200,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.error, size: 100),
+              GestureDetector(
+                onTap: _pickImage,
+                child: Image.file(
+                  File(_imagePath),
+                  height: 200,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.error, size: 100),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: _pickImage,
+                icon: const Icon(Icons.photo_library),
+                label: const Text('Canviar imatge'),
               ),
             ],
           ),
