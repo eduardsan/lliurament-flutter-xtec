@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_about_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_details_page.dart';
+import 'package:lliurament_flutter_xtec/presentation/pages/pokemon_edit_page.dart';
 import 'package:lliurament_flutter_xtec/presentation/viewmodels/pokemon_viewmodel.dart';
 
 enum HomeMenuAction {
@@ -45,7 +46,16 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {}, // Logic for adding a single card can be added here
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PokemonEditPage(
+                    viewModel: widget.viewModel,
+                  ),
+                ),
+              );
+            },
             tooltip: 'Afegir Pokemon',
           ),
           PopupMenuButton<HomeMenuAction>(
